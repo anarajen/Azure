@@ -1,0 +1,564 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.38.33.27573",
+      "templateHash": "10044755470934474588"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources"
+      }
+    },
+    "appServices": {
+      "type": "array",
+      "metadata": {
+        "description": "App services configuration array"
+      }
+    },
+    "commonTags": {
+      "type": "object",
+      "defaultValue": {},
+      "metadata": {
+        "description": "Common tags for all resources"
+      }
+    },
+    "privateDnsZoneResourceId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net",
+      "metadata": {
+        "description": "Private DNS zone resource ID for the private endpoint (if any)"
+      }
+    },
+    "virtualNetworkSubnetId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/virtualNetworks/DEVUAT-APP-VNET/subnets/DEVUAT-ASE-OUTBOUND-SUBNET",
+      "metadata": {
+        "description": "Virtual Network Subnet ID for VNet integration"
+      }
+    },
+    "logAnalyticsWorkspaceResourceId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Application Insights workspace resource ID"
+      }
+    },
+    "privateEndpointSubnetId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/virtualNetworks/DEVUAT-APP-VNET/subnets/DEVUAT-ASE-SUBNET",
+      "metadata": {
+        "description": "Private endpoint subnet ID"
+      }
+    },
+    "certificateThumbprint": {
+      "type": "string",
+      "metadata": {
+        "description": "The thumbprint of the wildcard certificate"
+      }
+    }
+  },
+  "resources": [
+    {
+      "copy": {
+        "name": "appService",
+        "count": "[length(parameters('appServices'))]"
+      },
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "[format('deploy-{0}', parameters('appServices')[copyIndex()].name)]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "appServiceName": {
+            "value": "[parameters('appServices')[copyIndex()].name]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "virtualNetworkSubnetId": {
+            "value": "[parameters('virtualNetworkSubnetId')]"
+          },
+          "appInsightsResourceId": {
+            "value": "[coalesce(parameters('appServices')[copyIndex()].appInsightsResourceId, '')]"
+          },
+          "appServicePlanId": {
+            "value": "[parameters('appServices')[copyIndex()].appServicePlanId]"
+          },
+          "privateDnsZoneResourceId": "[if(not(empty(parameters('privateDnsZoneResourceId'))), createObject('value', parameters('privateDnsZoneResourceId')), createObject('value', null()))]",
+          "privateEndpointSubnetId": "[if(not(empty(parameters('privateEndpointSubnetId'))), createObject('value', parameters('privateEndpointSubnetId')), createObject('value', null()))]",
+          "logAnalyticsWorkspaceResourceId": "[if(not(empty(parameters('logAnalyticsWorkspaceResourceId'))), createObject('value', parameters('logAnalyticsWorkspaceResourceId')), createObject('value', ''))]",
+          "tags": {
+            "value": "[parameters('commonTags')]"
+          },
+          "customDomains": {
+            "value": "[coalesce(tryGet(parameters('appServices')[copyIndex()], 'customDomains'), createArray())]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.38.33.27573",
+              "templateHash": "359780808311661612"
+            }
+          },
+          "parameters": {
+            "appServiceName": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the App Service"
+              }
+            },
+            "appServicePlanId": {
+              "type": "string",
+              "metadata": {
+                "description": "The resource ID of the existing App Service Plan"
+              }
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]",
+              "metadata": {
+                "description": "The location for all resources"
+              }
+            },
+            "linuxFxVersion": {
+              "type": "string",
+              "defaultValue": "NODE|22-lts",
+              "metadata": {
+                "description": "The Linux FX Version (e.g., NODE|22-lts)"
+              }
+            },
+            "customDomains": {
+              "type": "array",
+              "defaultValue": [],
+              "metadata": {
+                "description": "Custom domain names"
+              }
+            },
+            "virtualNetworkSubnetId": {
+              "type": "string",
+              "defaultValue": "",
+              "metadata": {
+                "description": "Virtual Network Subnet ID for VNet integration"
+              }
+            },
+            "appInsightsResourceId": {
+              "type": "string",
+              "defaultValue": "",
+              "metadata": {
+                "description": "Application Insights resource ID - if empty, a new one will be created"
+              }
+            },
+            "appInsightsName": {
+              "type": "string",
+              "defaultValue": "[format('{0}', parameters('appServiceName'))]",
+              "metadata": {
+                "description": "Application Insights name - used when creating new instance"
+              }
+            },
+            "logAnalyticsWorkspaceResourceId": {
+              "type": "string",
+              "defaultValue": "",
+              "metadata": {
+                "description": "Application Insights workspace resource ID"
+              }
+            },
+            "httpsOnly": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Enable HTTPS only"
+              }
+            },
+            "clientAffinityEnabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Client affinity enabled"
+              }
+            },
+            "alwaysOn": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Always On setting"
+              }
+            },
+            "minimumElasticInstanceCount": {
+              "type": "int",
+              "defaultValue": 2,
+              "metadata": {
+                "description": "Minimum elastic instance count"
+              }
+            },
+            "functionAppScaleLimit": {
+              "type": "int",
+              "defaultValue": 5,
+              "metadata": {
+                "description": "Function app scale limit"
+              }
+            },
+            "publicNetworkAccess": {
+              "type": "string",
+              "defaultValue": "Disabled",
+              "allowedValues": [
+                "Enabled",
+                "Disabled"
+              ],
+              "metadata": {
+                "description": "Public network access"
+              }
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {},
+              "metadata": {
+                "description": "Tags to apply to resources"
+              }
+            },
+            "keyVaultReferenceIdentity": {
+              "type": "string",
+              "defaultValue": "SystemAssigned",
+              "allowedValues": [
+                "SystemAssigned",
+                "UserAssigned"
+              ],
+              "metadata": {
+                "description": "Key Vault reference identity"
+              }
+            },
+            "http20Enabled": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Enable HTTP 2.0"
+              }
+            },
+            "enablePrivateEndpoint": {
+              "type": "bool",
+              "defaultValue": true,
+              "metadata": {
+                "description": "Enable private endpoint for the App Service"
+              }
+            },
+            "privateEndpointSubnetId": {
+              "type": "string",
+              "defaultValue": "",
+              "metadata": {
+                "description": "Private endpoint subnet ID"
+              }
+            },
+            "privateEndpointName": {
+              "type": "string",
+              "defaultValue": "[format('{0}-pe', parameters('appServiceName'))]",
+              "metadata": {
+                "description": "Private endpoint name"
+              }
+            },
+            "privateDnsZoneResourceId": {
+              "type": "string",
+              "defaultValue": "",
+              "metadata": {
+                "description": "Private DNS zone resource ID for the private endpoint"
+              }
+            }
+          },
+          "variables": {
+            "actualAppInsightsResourceId": "[if(not(empty(parameters('appInsightsResourceId'))), parameters('appInsightsResourceId'), if(empty(parameters('appInsightsResourceId')), resourceId('Microsoft.Insights/components', parameters('appInsightsName')), ''))]"
+          },
+          "resources": [
+            {
+              "condition": "[empty(parameters('appInsightsResourceId'))]",
+              "type": "Microsoft.Insights/components",
+              "apiVersion": "2020-02-02",
+              "name": "[parameters('appInsightsName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "kind": "web",
+              "properties": {
+                "Application_Type": "web",
+                "Request_Source": "rest",
+                "WorkspaceResourceId": "[if(not(empty(parameters('logAnalyticsWorkspaceResourceId'))), parameters('logAnalyticsWorkspaceResourceId'), null())]"
+              }
+            },
+            {
+              "type": "Microsoft.Web/sites",
+              "apiVersion": "2024-11-01",
+              "name": "[parameters('appServiceName')]",
+              "location": "[parameters('location')]",
+              "tags": "[union(parameters('tags'), createObject('hidden-link: /app-insights-resource-id', variables('actualAppInsightsResourceId')))]",
+              "kind": "app,linux",
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "properties": {
+                "serverFarmId": "[parameters('appServicePlanId')]",
+                "reserved": true,
+                "httpsOnly": "[parameters('httpsOnly')]",
+                "clientAffinityEnabled": "[parameters('clientAffinityEnabled')]",
+                "virtualNetworkSubnetId": "[if(not(empty(parameters('virtualNetworkSubnetId'))), parameters('virtualNetworkSubnetId'), null())]",
+                "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
+                "keyVaultReferenceIdentity": "[parameters('keyVaultReferenceIdentity')]",
+                "siteConfig": {
+                  "numberOfWorkers": 1,
+                  "linuxFxVersion": "[parameters('linuxFxVersion')]",
+                  "alwaysOn": "[parameters('alwaysOn')]",
+                  "http20Enabled": "[parameters('http20Enabled')]",
+                  "minimumElasticInstanceCount": "[parameters('minimumElasticInstanceCount')]",
+                  "functionAppScaleLimit": "[parameters('functionAppScaleLimit')]",
+                  "acrUseManagedIdentityCreds": false,
+                  "appSettings": "[if(empty(parameters('appInsightsResourceId')), createArray(createObject('name', 'APPLICATIONINSIGHTS_CONNECTION_STRING', 'value', reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2020-02-02').ConnectionString), createObject('name', 'APPINSIGHTS_INSTRUMENTATIONKEY', 'value', reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2020-02-02').InstrumentationKey)), createArray())]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]"
+              ]
+            },
+            {
+              "copy": {
+                "name": "customDomainBinding",
+                "count": "[length(parameters('customDomains'))]"
+              },
+              "type": "Microsoft.Web/sites/hostNameBindings",
+              "apiVersion": "2022-03-01",
+              "name": "[format('{0}/{1}', parameters('appServiceName'), parameters('customDomains')[copyIndex()])]",
+              "properties": {
+                "siteName": "[parameters('appServiceName')]",
+                "hostNameType": "Verified"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('appServiceName'))]"
+              ]
+            },
+            {
+              "condition": "[parameters('enablePrivateEndpoint')]",
+              "type": "Microsoft.Network/privateEndpoints",
+              "apiVersion": "2022-05-01",
+              "name": "[parameters('privateEndpointName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]",
+              "properties": {
+                "subnet": {
+                  "id": "[parameters('privateEndpointSubnetId')]"
+                },
+                "privateLinkServiceConnections": [
+                  {
+                    "name": "[format('{0}-connection', parameters('privateEndpointName'))]",
+                    "properties": {
+                      "privateLinkServiceId": "[resourceId('Microsoft.Web/sites', parameters('appServiceName'))]",
+                      "groupIds": [
+                        "sites"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('appServiceName'))]"
+              ]
+            },
+            {
+              "condition": "[parameters('enablePrivateEndpoint')]",
+              "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+              "apiVersion": "2022-05-01",
+              "name": "[format('{0}/{1}', parameters('privateEndpointName'), 'default')]",
+              "properties": {
+                "privateDnsZoneConfigs": [
+                  {
+                    "name": "privatelink-azurewebsites-net",
+                    "properties": {
+                      "privateDnsZoneId": "[parameters('privateDnsZoneResourceId')]"
+                    }
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointName'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "appServiceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Web/sites', parameters('appServiceName'))]"
+            },
+            "appServiceName": {
+              "type": "string",
+              "value": "[parameters('appServiceName')]"
+            },
+            "defaultHostName": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/sites', parameters('appServiceName')), '2024-11-01').defaultHostName]"
+            },
+            "possibleOutboundIpAddresses": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/sites', parameters('appServiceName')), '2024-11-01').possibleOutboundIpAddresses]"
+            },
+            "principalId": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/sites', parameters('appServiceName')), '2024-11-01', 'full').identity.principalId]"
+            },
+            "tenantId": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/sites', parameters('appServiceName')), '2024-11-01', 'full').identity.tenantId]"
+            },
+            "hostNames": {
+              "type": "array",
+              "copy": {
+                "count": "[length(parameters('customDomains'))]",
+                "input": "[parameters('customDomains')[copyIndex()]]"
+              }
+            },
+            "enabledHostNames": {
+              "type": "array",
+              "value": "[reference(resourceId('Microsoft.Web/sites', parameters('appServiceName')), '2024-11-01').enabledHostNames]"
+            },
+            "privateEndpointId": {
+              "type": "string",
+              "value": "[if(parameters('enablePrivateEndpoint'), resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointName')), '')]"
+            },
+            "privateEndpointName": {
+              "type": "string",
+              "value": "[if(parameters('enablePrivateEndpoint'), parameters('privateEndpointName'), '')]"
+            },
+            "applicationInsightsId": {
+              "type": "string",
+              "value": "[if(empty(parameters('appInsightsResourceId')), resourceId('Microsoft.Insights/components', parameters('appInsightsName')), parameters('appInsightsResourceId'))]"
+            },
+            "applicationInsightsName": {
+              "type": "string",
+              "value": "[if(empty(parameters('appInsightsResourceId')), parameters('appInsightsName'), '')]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "copy": {
+        "name": "domainVerification",
+        "count": "[length(parameters('appServices'))]"
+      },
+      "condition": "[greater(length(coalesce(tryGet(parameters('appServices')[copyIndex()], 'customDomains'), createArray())), 0)]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "[format('domain-verification-{0}', parameters('appServices')[copyIndex()].name)]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "appName": {
+            "value": "[parameters('appServices')[copyIndex()].name]"
+          },
+          "certificateThumbprint": {
+            "value": "[parameters('certificateThumbprint')]"
+          },
+          "customDomains": {
+            "value": "[parameters('appServices')[copyIndex()].customDomains]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.38.33.27573",
+              "templateHash": "12597774235019284261"
+            }
+          },
+          "parameters": {
+            "appName": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the App Service or Function App"
+              }
+            },
+            "certificateThumbprint": {
+              "type": "string",
+              "metadata": {
+                "description": "The thumbprint of the wildcard certificate"
+              }
+            },
+            "customDomains": {
+              "type": "array",
+              "metadata": {
+                "description": "An array of custom domains to bind"
+              }
+            }
+          },
+          "resources": [
+            {
+              "copy": {
+                "name": "hostNameBinding",
+                "count": "[length(parameters('customDomains'))]"
+              },
+              "type": "Microsoft.Web/sites/hostNameBindings",
+              "apiVersion": "2022-03-01",
+              "name": "[format('{0}/{1}', parameters('appName'), parameters('customDomains')[copyIndex()])]",
+              "properties": {
+                "sslState": "SniEnabled",
+                "thumbprint": "[parameters('certificateThumbprint')]"
+              }
+            }
+          ],
+          "outputs": {
+            "bindings": {
+              "type": "array",
+              "copy": {
+                "count": "[length(parameters('customDomains'))]",
+                "input": {
+                  "appName": "[parameters('appName')]",
+                  "domain": "[parameters('customDomains')[copyIndex()]]",
+                  "bindingName": "[parameters('customDomains')[indexOf(parameters('customDomains'), parameters('customDomains')[copyIndex()])]]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "appServices": {
+      "type": "array",
+      "copy": {
+        "count": "[length(parameters('appServices'))]",
+        "input": {
+          "name": "[format('deploy-{0}', parameters('appServices')[copyIndex()].name)]",
+          "id": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name)), '2025-04-01').outputs.appServiceId.value]",
+          "defaultHostName": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name)), '2025-04-01').outputs.defaultHostName.value]",
+          "possibleOutboundIpAddresses": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name)), '2025-04-01').outputs.possibleOutboundIpAddresses.value]",
+          "principalId": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name)), '2025-04-01').outputs.principalId.value]",
+          "tenantId": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name)), '2025-04-01').outputs.tenantId.value]",
+          "enabledHostNames": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('appServices')[copyIndex()].name)), '2025-04-01').outputs.enabledHostNames.value]"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "value": {
+        "resourceGroup": "[resourceGroup().name]",
+        "appServicesCount": "[length(parameters('appServices'))]",
+        "location": "[parameters('location')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "functionApps": {
+      "value": [
+        {
+          "name": "DEV-TEST-FUNC-APP-PREM",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEV-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/DEV-ASP-PREM-1",
+          "customDomains": [
+            "test-prem-function-app.nonprod-krispay.com"
+          ]
+        }
+      ]
+    },
+    "virtualNetworkSubnetId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/virtualNetworks/DEVUAT-APP-VNET/subnets/DEVUAT-ASE-OUTBOUND-SUBNET"
+    },
+    "privateDnsZoneResourceId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net"
+    },
+    "logAnalyticsWorkspaceResourceId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourcegroups/devuat-ase-rg/providers/microsoft.operationalinsights/workspaces/dev-workspace"
+    },
+		"privateEndpointSubnetId": {
+			"value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/virtualNetworks/DEVUAT-APP-VNET/subnets/DEVUAT-ASE-SUBNET"
+		},
+    "commonTags": {
+      "value": {
+        "environment": "dev",
+        "project": "krisplus-premium-asp"
+      }
+    },
+    "certificateThumbprint": {
+      "value": "8CC27549A4FA33B749B26106EA73FFD896818391"
+    }
+  }
+}
