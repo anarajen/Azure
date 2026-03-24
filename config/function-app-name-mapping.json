@@ -1,0 +1,51 @@
+{
+  "dev": {
+    "dev-kp-translation": "DEV-KP-TRANSLATION-PREM",
+    "dev-fads-v2": "DEV-FADS-PREM",
+    "dev-promo-v2": "DEV-PROMO-PREM",
+    "dev-app-service-management": "DEV-APP-SERVICE-MANAGEMENT-PREM",
+    "dev-krisplus-partnership-gpt": "DEV-KRISPLUS-PARTNERSHIP-GPT-PREM",
+    "dev-krisplus-blockchain": "DEV-KRISPLUS-BLOCKCHAIN-PREM",
+    "dev-challenges-v2": "DEV-CHALLENGES-PREM",
+    "dev-krispay-batch": "DEV-KRISPAY-BATCH-PREM",
+    "dev-krispay-utils-v2": "DEV-KRISPAY-UTIL-PREM",
+    "dev-transaction-migration": "DEV-TRANSACTION-MIGRATION-PREM"
+  },
+  "uat": {
+    "UAT-KRISPAY-BATCH-V2-02": "UAT-KRISPAY-BATCH-PREM",
+    "UAT-AU-KRISPAY-BATCH-V2-02": "UAT-AU-KRISPAY-BATCH-PREM",
+    "uat-challenges-02": "UAT-CHALLENGES-PREM",
+    "UAT-PROMO-V2-02": "UAT-PROMO-PREM",
+    "uat-kp-translation": "UAT-KP-TRANSLATION-PREM",
+    "UAT-KRISPAY-UTIL-V2-02": "UAT-KRISPAY-UTIL-PREM",
+    "uat-krisshop-batch-02": "UAT-KRISSHOP-BATCH-PREM",
+    "uat-transaction-migration": "UAT-TRANSACTION-MIGRATION-PREM",
+    "uat-krisplus-partnership-gpt": "UAT-KRISPLUS-PARTNERSHIP-GPT-PREM",
+    "uat-krisplus-blockchain": "UAT-KRISPLUS-BLOCKCHAIN-PREM",
+    "uat-fads-02": "UAT-FADS-PREM"
+  },
+  "stg": {
+    "stg-krisplus-blockchain": "STG-KRISPLUS-BLOCKCHAIN-PREM",
+    "STG-PROMO": "STG-PROMO-PREM",
+    "STG-CHALLENGES": "STG-CHALLENGES-PREM",
+    "stg-transaction-migration": "STG-TRANSACTION-MIGRATION-PREM",
+    "stg-krisplus-partnership-gpt": "STG-KRISPLUS-PARTNERSHIP-GPT-PREM",
+    "STG-TRANSLATION": "STG-TRANSLATION-PREM",
+    "STG-SG-BATCH": "STG-SG-BATCH-PREM",
+    "STG-UTIL": "STG-UTIL-PREM",
+    "STG-AU-BATCH": "STG-AU-BATCH-PREM"
+  },
+  "prod": {
+    "prod-transaction-migration": "PROD-TRANSACTION-MIGRATION-PREM",
+    "PROD-CHALLENGES": "PROD-CHALLENGES-PREM",
+    "prod-krisplus-blockchain": "PROD-KRISPLUS-BLOCKCHAIN-PREM",
+    "PROD-PROMO": "PROD-PROMO-PREM",
+    "PROD-FADS": "PROD-FADS-PREM",
+    "PROD-UTIL": "PROD-UTIL-PREM",
+    "PROD-SG-BATCH": "PROD-SG-BATCH-PREM",
+    "prod-krisplus-partnership-gpt": "PROD-KRISPLUS-PARTNERSHIP-GPT-PREM",
+    "PROD-TRANSLATION-01": "PROD-TRANSLATION-01-PREM",
+    "PROD-KRISSHOP-BATCH": "PROD-KRISSHOP-BATCH-PREM",
+    "PROD-AU-BATCH": "PROD-AU-BATCH-PREM"
+  }
+}

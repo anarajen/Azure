@@ -1,0 +1,199 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServices": {
+      "value": [
+        {
+          "name": "STG-MERCHANT-PWA-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-MERCHANT-PWA",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-1",
+          "customDomains": ["merchant-pwa-stg.nonprod-krispay.com"],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-CUST-PORTAL-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-CUST-PORTAL",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-1",
+          "customDomains": [
+            "merchant-stg.nonprod-krispay.com",
+            "merchant-intern-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-CA-BFF-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-CA-BFF",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-1",
+          "customDomains": [
+            "ca-stg.nonprod-krispay.com",
+            "ca-intern-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-SIA-PORTAL-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-SIA-PORTAL",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-1",
+          "customDomains": [
+            "admin-stg.nonprod-krispay.com",
+            "admin-intern-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-UAA-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-UAA",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-1",
+          "customDomains": [
+            "api-uaa-stg.nonprod-krispay.com",
+            "api-intern-uaa-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-MA-BFF-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-MA-BFF",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-1",
+          "customDomains": [
+            "ma-stg.nonprod-krispay.com",
+            "ma-intern-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-NONBIZ-API-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-NONBIZ-API",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-2",
+          "customDomains": [
+            "api-nonbiz-stg.nonprod-krispay.com",
+            "api-intern-nonbiz-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-VOUCHER-API-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-VOUCHER-API",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-2",
+          "customDomains": [
+            "api-voucher-stg.nonprod-krispay.com",
+            "api-intern-voucher-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-PRIVILEGES-API-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-PRIVILEGES-API",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-2",
+          "customDomains": [
+            "api-privileges-stg.nonprod-krispay.com",
+            "api-intern-privileges-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-EXTERNAL-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-EXTERNAL",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-2",
+          "customDomains": [
+            "api-external-stg.nonprod-krispay.com",
+            "api-intern-external-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-BIZ-API-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-BIZ-API",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-2",
+          "customDomains": [
+            "api-biz-stg.nonprod-krispay.com",
+            "api-intern-biz-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        },
+        {
+          "name": "STG-SEARCH-API-PREM",
+          "appInsightsResourceId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-RG/providers/microsoft.insights/components/STG-SEARCH-API",
+          "appServicePlanId": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/STG-ASE-PREM-RG/providers/Microsoft.Web/serverfarms/STG-ASP-PREM-2",
+          "customDomains": [
+            "api-search-stg.nonprod-krispay.com",
+            "api-intern-search-stg.nonprod-krispay.com"
+          ],
+          "deploymentSlots": [
+            {
+              "name": "temp"
+            }
+          ]
+        }
+      ]
+    },
+    "virtualNetworkSubnetId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/virtualNetworks/DEVUAT-APP-VNET/subnets/DEVUAT-ASE-OUTBOUND-SUBNET"
+    },
+    "privateDnsZoneResourceId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net"
+    },
+    "logAnalyticsWorkspaceResourceId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourcegroups/devuat-ase-rg/providers/microsoft.operationalinsights/workspaces/uat-workspace"
+    },
+    "privateEndpointSubnetId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-ASE-RG/providers/Microsoft.Network/virtualNetworks/DEVUAT-APP-VNET/subnets/DEVUAT-ASE-SUBNET"
+    },
+    "commonTags": {
+      "value": {
+        "environment": "stg",
+        "project": "krisplus-premium-asp"
+      }
+    },
+    "certificateSecretName": {
+      "value": "Sectigo-nonprodkrispaydotcom-2025"
+    },
+    "keyVaultResourceId": {
+      "value": "/subscriptions/9048e167-320c-4204-8671-f4bf4557b1d5/resourceGroups/DEVUAT-CORE-RG/providers/Microsoft.KeyVault/vaults/krispay-nonprod-kv"
+    }
+  }
+}
